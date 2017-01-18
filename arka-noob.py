@@ -43,9 +43,11 @@ while not done:
 
         keys=pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
-                paddle_x -= paddle_speed
+                if(paddle_x > 0):
+                    paddle_x -= paddle_speed
         if keys[pygame.K_RIGHT]:
-                paddle_x += paddle_speed
+                if(paddle_x < (frame_x - paddle_size_x)):
+                    paddle_x += paddle_speed
 
         # Crash detection
         # Reached the wall
