@@ -49,18 +49,18 @@ while not done:
 
         # Crash detection
         # Reached the wall
-        if (ball_x >= frame_x):
+        if (ball_x + ball_radius >= frame_x):
                 turn_x = 1 
         # Reached the other wall
-        if(ball_x <= 0):
+        if(ball_x  - ball_radius <= 0):
                 turn_x = 0
 
-        # Reached the wall
-        if (ball_y >= frame_y):
+        # Reached the paddle
+        if ( (ball_y + ball_radius == paddle_y) and ( (ball_x + ball_radius >= paddle_x) and (ball_x - ball_radius <= (paddle_x + paddle_size_x) ) ) ):
                 turn_y = 1
         
         # Reached the other wall
-        if(ball_y <= 0):
+        if(ball_y - ball_radius <= 0):
                 turn_y = 0
         # Moving box
         if(turn_x == 1):
@@ -74,6 +74,6 @@ while not done:
                 ball_y += 1
 
         screen.blit(BackGround.image, BackGround.rect)
-        pygame.draw.circle(screen, color, (ball_x, ball_y), ball_radius, 0)
+        pygame.draw.circle(screen, color, (ball_x, ball_y), ball_radius, 9)
         pygame.draw.rect(screen, color, (paddle_x, paddle_y, paddle_size_x, paddle_size_y))
         pygame.display.flip()
