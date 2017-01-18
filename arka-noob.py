@@ -22,13 +22,15 @@ frame_y = 476
 ball_x = 1
 ball_y = 1
 paddle_x = (frame_x / 2) - (paddle_size_x/2)
-paddle_y = frame_y - 20
+paddle_y = frame_y - paddle_size_y
 
 # Direction
 turn_x = 0
 turn_y = 0
+angle = 0
 
 # Speeds
+ball_speed = 2
 paddle_speed = 3
 
 screen = pygame.display.set_mode((frame_x, frame_y))
@@ -49,9 +51,20 @@ while not done:
                 if(paddle_x < (frame_x - paddle_size_x)):
                     paddle_x += paddle_speed
 
+        # Moving ball
+        if(turn_x == 1):
+                ball_x -= ball_speed + (angle / 3)
+        else:
+                ball_x += ball_speed + (angle / 3)
+
+        if(turn_y == 1):
+                ball_y -= ball_speed
+        else:
+                ball_y += ball_speed
+
         # Crash detection
         # Reached the wall
-        if (ball_x + ball_radius >= frame_x):
+        if ((ball_x + ball_radius) >= frame_x):
                 turn_x = 1 
         # Reached the other wall
         if(ball_x  - ball_radius <= 0):
@@ -59,22 +72,18 @@ while not done:
 
         # Reached the paddle
         if ( (ball_y + ball_radius == paddle_y) and ( (ball_x + ball_radius >= paddle_x) and (ball_x - ball_radius <= (paddle_x + paddle_size_x) ) ) ):
+                print("Paddle x = " + str(paddle_x) + ", ball x = " + str(ball_x) + ", ball angle = " + str(angle)) 
                 turn_y = 1
+                angle = ball_x - (paddle_x + paddle_size_x/2)
+                if(angle < 0):
+                    turn_x = 1
+                if(angle > 0):
+                    turn_x = 0
         
         # Reached the other wall
         if(ball_y - ball_radius <= 0):
                 turn_y = 0
-        # Moving box
-        if(turn_x == 1):
-                ball_x -= 1
-        else:
-                ball_x += 1 
-
-        if(turn_y == 1):
-                ball_y -= 1
-        else:
-                ball_y += 1
-
+        
         screen.blit(BackGround.image, BackGround.rect)
         pygame.draw.circle(screen, color, (ball_x, ball_y), ball_radius, 9)
         pygame.draw.rect(screen, color, (paddle_x, paddle_y, paddle_size_x, paddle_size_y))
