@@ -74,10 +74,11 @@ while not done:
         if ( (ball_y + ball_radius == paddle_y) and ( (ball_x + ball_radius >= paddle_x) and (ball_x - ball_radius <= (paddle_x + paddle_size_x) ) ) ):
                 print("Paddle x = " + str(paddle_x) + ", ball x = " + str(ball_x) + ", ball angle = " + str(angle)) 
                 turn_y = 1
-                angle = ball_x - (paddle_x + paddle_size_x/2)
-                if(angle < 0):
+                turn = ball_x - (paddle_x + paddle_size_x/2)
+                angle = abs(turn)
+                if(turn < 0):
                     turn_x = 1
-                if(angle > 0):
+                if(turn > 0):
                     turn_x = 0
         
         # Reached the other wall
